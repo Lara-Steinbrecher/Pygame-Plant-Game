@@ -1,0 +1,25 @@
+# Tabla de constantes del juego
+
+### PANTALLA ###
+
+ANCHO = 735
+ALTO = 472
+
+FPS = 60
+
+### PLANTA ###
+
+SCALE_FOR_PLANT = 0.45
+
+### STATS ###
+
+SCALE_FOR_BOTTOM_WATER = 0.25
+SCALE_FOR_WATER = 0.125
+
+SCALE_FOR_POSTIT = 0.5
+
+SCALE_FOR_TIME = 0.125
+
+SCALE_FOR_SKIP = 0.25
+
+SCALE_FOR_HUGE_TIME = 1
