@@ -98,14 +98,16 @@ luz = ""
 temperatura = ""
 nutrientes = ""
 
-tiempo = 0
 activador = ""
 
-vida = 80 # de 0 a 100
 agua_rate = 20
 
 var_agua = 1
 var_luz = 1
+
+reloj = 0
+MY_EVENT = pygame.USEREVENT + 1
+pygame.time.set_timer(MY_EVENT, 1000) # cada 1 segundo
 
 run = True
 while run:
@@ -118,7 +120,7 @@ while run:
     boton_luz_icon.draw(var_luz, screen)
     agua_icon.draw(screen)
     luz_icon.draw(screen)
-    postit.draw(screen, vida)
+    postit.draw(screen, 75)
     time_icon.draw(screen)
     skip_icon.draw(screen)   
 
@@ -127,6 +129,11 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+
+        
+        if event.type == MY_EVENT:
+            reloj = reloj + 1
+            print(reloj)
 
         if pygame.mouse.get_pressed()[0]:
             clicked = True
@@ -147,10 +154,10 @@ while run:
                     luz = False
             
             if skip_icon.image_shape.collidepoint(position):
-                tiempo = tiempo + 12
+                
                 activador = True
-                agua_rate = planta.regar(agua, agua_rate, activador)
-                print ( "hora actual: ", tiempo)
+                reloj = reloj +1
+                print(reloj)
 
             print(clicked, position, agua_rate)
         if not pygame.mouse.get_pressed()[0] and clicked:
