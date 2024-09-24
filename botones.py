@@ -25,6 +25,8 @@ class Boton():
         self.off_shape.center = (x, y) # segun la coord que le demos se mueve inmediatamente ahi  
         self.on_shape.center = (x, y)
 
+        self.need = 100
+
     def draw(self, var, screen):
 
         if var < 0:
