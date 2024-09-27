@@ -105,6 +105,10 @@ def game_loop():
     var_agua = 1
     var_luz = 1
 
+    # Variables que se activan cuando se activa un minigame
+    water_minigame_on = False
+    light_minigame_on = False
+
     run = True
     while run: 
         # Dibujo el fondo y todas las imagenes
@@ -171,8 +175,94 @@ def game_loop():
         if boton_agua_icon.need <= 0 or boton_luz_icon.need <= 0:
             run = False
         
+        if water_minigame_on == True:
+            water_minigame()
+
         pygame.display.update()
         clock.tick(c.FPS)
+
+
+def water_minigame():
+    jump = False
+    # Digamos
+    ground = MINIGAME_X - PERSON_ALTO - 10
+    person_X = PERSON_X
+    person_Y = ground
+    person_Y_speed = 0
+
+    ### Draw the background ###
+
+    background_image_unescaled = pygame.image.load("assets//images//waterMiniGameBackground.jpg")
+    background_image = escale_img(background_image_unescaled, c.SCALE_FOR_PLANT)
+    background_rect = background_image.get_rect()
+    screen.blit(background_image, background_rect)
+    background_rect = background_image.get_rect()
+    background_rect.center = (ANCHO // 2, ALTO // 2) # Estoy usando doble barra para que quede entero (cosa de pixeles), fijate de lo mismo
+
+    ### Draw the person ###
+    person_image_unescaled = pygame.image.load("assets//images//waterMiniGameBackground.jpg")
+    person_image = escale_img(person_image_unescaled, c.SCALE_FOR_PLANT)
+    person_rect = person_image.get_rect()
+    screen.blit(person_image, person_rect)
+    person_rect = person_image.get_rect()
+    person_rect.center = (person_X, person_Y)
+    
+    ### Draw the obstacles ###
+    obstacle_image_unescaled = pygame.image.load("assets//images//waterMiniGameBackground.jpg")
+    obstacle_image = escale_img(obstacle_image_unescaled, c.SCALE_FOR_PLANT)
+    random.randrange(12, 36)
+    obstacle1 = Obstacle(obstacle_image, random.randrange(100, 200),ground)
+    obstacle1.draw()
+    obstacle2 = Obstacle(obstacle_image, random.randrange(250, 350),ground)
+    obstacle2.draw()
+    obstacle3 = Obstacle(obstacle_image, random.randrange(400, 500), ground)
+    obstacle3.draw()
+    
+
+    ### Draw the tap ###
+    tap_image_unescaled = pygame.image.load("assets//images//waterMiniGameBackground.jpg")
+    tap_image = escale_img(tap_image_unescaled, c.SCALE_FOR_PLANT)
+    tap_rect = tap_image.get_rect()
+    screen.blit(tap_image, tap_rect)
+    tap_rect = tap_image.get_rect()
+    tap_rect.center = (TAP_X, ground)
+
+
+    for event in pygame.event.get():
+        if event.type == pygame.K_D:
+            PERSON_X -= PERSON_SPEED
+        if event.type == pygame.K_W:
+            PERSON_Y += PERSON_SPEED
+        if event.type == pygame.K_SPACE:
+            if (jump == False):
+                # Si no estoy saltando, empiezo a contar que estoy saltando y me agrego velocidad 
+                # (lo que voy a agregar a mi posición)
+                jump = True
+                person_vertical_speed = -jump
+            else:
+                # Si ya estoy saltando, cambio mi posición a más alto y me bajo la velocidad, esto hasta que baje hasta
+                # el suelo
+                person_Y += person_Y_speed
+                person_Y_speed += PERSON_GRAVITY
+
+    if PERSON_Y == ground: # Si estoy a nivel del suelo, mi velocidad de caida es 0 y dejo de saltar
+        jump = False
+        person_Y_speed = 0
+
+    # Colisión con bordes
+    #   Lado izquierdo
+    if person_X < 0:
+        person_X = 0
+    #   Lado derecho
+    if person_X > ANCHO - PERSON_ANCHO:
+        person_X = ANCHO - PERSON_ANCHO
+
+    # Colisión de personaje con obstaculo
+    if person_rect.colliderect(obstacle_rect1.shape) or person_rect.colliderect(obstacle_rect2.shape) or person_rect.colliderect(obstacle_rect3.shape):
+        person_X = PERSON_X
+    if person_rect.colliderect(tap_rect):
+        water_minigame_on = False
+    
 
 # Pantalla de game over, pasa cuando algunos de los valores llega a 0
 def game_over ():
@@ -227,7 +317,3 @@ while True:
 
     clock.tick(c.FPS)
     pygame.display.update()
-
-
-
-# A lo sumo es mejor ponerlo como clase para hacer la parte de menu inicial
