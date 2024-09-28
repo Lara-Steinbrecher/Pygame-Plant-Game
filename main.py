@@ -2,6 +2,7 @@ import pygame
 import CONSTANTES as c
 from personaje import Planta
 from botones import Icon, Boton, Mood, Time_skip
+from obstacles import Obstacle
 import random
 import sys
 
@@ -28,76 +29,77 @@ def escale_img(image, scale):
 # Font para los textos (provisional)
 font = pygame.font.SysFont("Arial", 24)
 
+### PLANTA ###
+# Cargo imagen de planta
+planta_image = pygame.image.load("assets//images//plant//plantaprueba.jpg")
+planta_image = escale_img(planta_image, c.SCALE_FOR_PLANT)
+planta = Planta(planta_image)
+
+### TIME ###
+# Cargo imagen de reloj
+time_image = pygame.image.load("assets//images//time.jpg")
+time_image = escale_img(time_image, c.SCALE_FOR_TIME)
+time_icon = Icon(time_image, 625, 200)
+
+### TIME SKIP ###
+# Cargo boton para el double time
+skip_image = pygame.image.load("assets//images//start.jpg")
+skip_image = escale_img(skip_image, c.SCALE_FOR_SKIP)
+skip_icon = Time_skip(skip_image, 570, 200)
+
+### POST IT ###
+# Que hace esto???
+flecha_arriba_image = pygame.image.load("assets//images//flecha_arriba.jpg")
+flecha_abajo_image = pygame.image.load("assets//images//flecha_abajo.jpg")
+flecha_media_image = pygame.image.load("assets//images//flecha_media.jpg")
+flecha_arriba_image = escale_img(flecha_arriba_image, c.SCALE_FOR_POSTIT)
+flecha_abajo_image = escale_img(flecha_abajo_image, c.SCALE_FOR_POSTIT)
+flecha_media_image = escale_img(flecha_media_image, c.SCALE_FOR_POSTIT)
+
+postit = Mood(flecha_abajo_image, flecha_media_image, flecha_arriba_image, 295,370)
+
+### HUGE TIME ###
+# Same, que queres cargar???
+huge_time_image = pygame.image.load("assets//images//time.jpg")
+huge_time_image = escale_img(huge_time_image, c.SCALE_FOR_HUGE_TIME)
+huge_time_icon = Icon(huge_time_image, 0, 0)
+
+### Variables clickeables ###
+
+### AGUA ###
+# Cargo imagen del agua y su boton (el on es invisible)
+agua_image = pygame.image.load("assets//images//water.jpg")
+agua_image = escale_img(agua_image, c.SCALE_FOR_WATER)
+agua_icon = Icon(agua_image, 625,110)
+
+boff_agua_image = pygame.image.load("assets//images//off.jpg")
+bon_agua_image = pygame.image.load("assets//images//on.jpg")
+boff_agua_image = escale_img(boff_agua_image, c.SCALE_FOR_BOTTOM_WATER)
+bon_agua_image = escale_img(bon_agua_image, c.SCALE_FOR_BOTTOM_WATER)
+
+boton_agua_icon = Boton(bon_agua_image, boff_agua_image, 570,110)
+
+### LUZ ###
+# Cargo el boton de luz (el on es invisivle)
+luz_image = pygame.image.load("assets//images//luz.jpg")
+luz_image = escale_img(luz_image, c.SCALE_FOR_WATER)
+luz_icon = Icon(luz_image, 470,110)
+
+boff_luz_image = pygame.image.load("assets//images//off.jpg")
+bon_luz_image = pygame.image.load("assets//images//on.jpg")
+boff_luz_image = escale_img(boff_luz_image, c.SCALE_FOR_BOTTOM_WATER)
+bon_luz_image = escale_img(bon_luz_image, c.SCALE_FOR_BOTTOM_WATER)
+
+boton_luz_icon = Boton(bon_luz_image, boff_luz_image, 420,110)
+
+# Timer
+MY_EVENT = pygame.USEREVENT + 1
+pygame.time.set_timer(MY_EVENT, 1000) # cada 1 segundo
+
 # Loop principal (hay uno para cada opcion del menu)
 def game_loop():
-    
-    ### PLANTA ###
-    # Cargo imagen de planta
-    planta_image = pygame.image.load("assets//images//plant//plantaprueba.jpg")
-    planta_image = escale_img(planta_image, c.SCALE_FOR_PLANT)
-    planta = Planta(planta_image)
-
-    ### TIME ###
-    # Cargo imagen de reloj
-    time_image = pygame.image.load("assets//images//time.jpg")
-    time_image = escale_img(time_image, c.SCALE_FOR_TIME)
-    time_icon = Icon(time_image, 625, 200)
-
-    ### TIME SKIP ###
-    # Cargo boton para el double time
-    skip_image = pygame.image.load("assets//images//start.jpg")
-    skip_image = escale_img(skip_image, c.SCALE_FOR_SKIP)
-    skip_icon = Time_skip(skip_image, 570, 200)
-
-    ### POST IT ###
-    # Que hace esto???
-    flecha_arriba_image = pygame.image.load("assets//images//flecha_arriba.jpg")
-    flecha_abajo_image = pygame.image.load("assets//images//flecha_abajo.jpg")
-    flecha_media_image = pygame.image.load("assets//images//flecha_media.jpg")
-    flecha_arriba_image = escale_img(flecha_arriba_image, c.SCALE_FOR_POSTIT)
-    flecha_abajo_image = escale_img(flecha_abajo_image, c.SCALE_FOR_POSTIT)
-    flecha_media_image = escale_img(flecha_media_image, c.SCALE_FOR_POSTIT)
-
-    postit = Mood(flecha_abajo_image, flecha_media_image, flecha_arriba_image, 295,370)
-
-    ### HUGE TIME ###
-    # Same, que queres cargar???
-    huge_time_image = pygame.image.load("assets//images//time.jpg")
-    huge_time_image = escale_img(huge_time_image, c.SCALE_FOR_HUGE_TIME)
-    huge_time_icon = Icon(huge_time_image, 0, 0)
-
-    ### Variables clickeables ###
-
-    ### AGUA ###
-    # Cargo imagen del agua y su boton (el on es invisible)
-    agua_image = pygame.image.load("assets//images//water.jpg")
-    agua_image = escale_img(agua_image, c.SCALE_FOR_WATER)
-    agua_icon = Icon(agua_image, 625,110)
-
-    boff_agua_image = pygame.image.load("assets//images//off.jpg")
-    bon_agua_image = pygame.image.load("assets//images//on.jpg")
-    boff_agua_image = escale_img(boff_agua_image, c.SCALE_FOR_BOTTOM_WATER)
-    bon_agua_image = escale_img(bon_agua_image, c.SCALE_FOR_BOTTOM_WATER)
-
-    boton_agua_icon = Boton(bon_agua_image, boff_agua_image, 570,110)
-
-    ### LUZ ###
-    # Cargo el boton de luz (el on es invisivle)
-    luz_image = pygame.image.load("assets//images//luz.jpg")
-    luz_image = escale_img(luz_image, c.SCALE_FOR_WATER)
-    luz_icon = Icon(luz_image, 470,110)
-
-    boff_luz_image = pygame.image.load("assets//images//off.jpg")
-    bon_luz_image = pygame.image.load("assets//images//on.jpg")
-    boff_luz_image = escale_img(boff_luz_image, c.SCALE_FOR_BOTTOM_WATER)
-    bon_luz_image = escale_img(bon_luz_image, c.SCALE_FOR_BOTTOM_WATER)
-
-    boton_luz_icon = Boton(bon_luz_image, boff_luz_image, 420,110)
-
-    # Timer
-    MY_EVENT = pygame.USEREVENT + 1
-    pygame.time.set_timer(MY_EVENT, 1000) # cada 1 segundo
     reloj = 0
+    
     # Cambia cuando estoy manteniendo el boton de acelerar tiempo
     double_time = False
 
@@ -133,6 +135,7 @@ def game_loop():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
+                sys.exit()
             
             # Timer, te da doble puntaje mientras lo mantengas presionado al boton
             if event.type == MY_EVENT:
@@ -153,6 +156,7 @@ def game_loop():
                     if skip_icon.image_shape.collidepoint(position):
                         double_time = True
                     if boton_agua_icon.off_shape.collidepoint(position) or boton_agua_icon.on_shape.collidepoint(position):
+                        water_minigame_on = True
                         var_agua = -var_agua
                         if var_agua < 0:
                             agua = True
@@ -176,93 +180,137 @@ def game_loop():
             run = False
         
         if water_minigame_on == True:
-            water_minigame()
+            water_minigame_on, reloj = water_minigame(reloj) 
+            print (water_minigame_on)
 
         pygame.display.update()
         clock.tick(c.FPS)
 
 
-def water_minigame():
+def water_minigame(reloj):
+    mini_run = True
     jump = False
     # Digamos
-    ground = MINIGAME_X - PERSON_ALTO - 10
-    person_X = PERSON_X
+    ground = 236 + 150 - 60
+    print ('ground:', ground)
+    person_X = 200
+    print ('person_x:', person_X)
     person_Y = ground
     person_Y_speed = 0
 
     ### Draw the background ###
 
-    background_image_unescaled = pygame.image.load("assets//images//waterMiniGameBackground.jpg")
-    background_image = escale_img(background_image_unescaled, c.SCALE_FOR_PLANT)
-    background_rect = background_image.get_rect()
-    screen.blit(background_image, background_rect)
-    background_rect = background_image.get_rect()
-    background_rect.center = (ANCHO // 2, ALTO // 2) # Estoy usando doble barra para que quede entero (cosa de pixeles), fijate de lo mismo
+    # background_image_unescaled = pygame.image.load("assets//images//waterMiniGameBackground.jpg")
+    # background_image = escale_img(background_image_unescaled, 0.7)
+    # background_rect = background_image.get_rect(center=(c.ANCHO // 2, c.ALTO // 2))
+    background = pygame.Surface((450,300))
+    background.fill('black')
+    background_rect = background.get_rect(center = (c.ANCHO // 2, c.ALTO // 2))
+
 
     ### Draw the person ###
-    person_image_unescaled = pygame.image.load("assets//images//waterMiniGameBackground.jpg")
-    person_image = escale_img(person_image_unescaled, c.SCALE_FOR_PLANT)
-    person_rect = person_image.get_rect()
-    screen.blit(person_image, person_rect)
-    person_rect = person_image.get_rect()
-    person_rect.center = (person_X, person_Y)
+    # person_image_unescaled = pygame.image.load("assets//images//person.jpg")
+    # person_image = escale_img(person_image_unescaled, 0.125)
+    # person_rect = person_image_unescaled.get_rect(center=(person_X, person_Y))
+    person = pygame.Surface((30,60))
+    person.fill('blue')
+    person_rect = person.get_rect(center = (200, 356))
+    print ('background', background_rect)
     
     ### Draw the obstacles ###
-    obstacle_image_unescaled = pygame.image.load("assets//images//waterMiniGameBackground.jpg")
-    obstacle_image = escale_img(obstacle_image_unescaled, c.SCALE_FOR_PLANT)
-    random.randrange(12, 36)
-    obstacle1 = Obstacle(obstacle_image, random.randrange(100, 200),ground)
-    obstacle1.draw()
-    obstacle2 = Obstacle(obstacle_image, random.randrange(250, 350),ground)
-    obstacle2.draw()
-    obstacle3 = Obstacle(obstacle_image, random.randrange(400, 500), ground)
-    obstacle3.draw()
+    # obstacle_image_unescaled = pygame.image.load("assets//images//obstacle.jpg")
+    # obstacle_image = escale_img(obstacle_image_unescaled, 0.125)
+    obstacle1 = pygame.Surface((30,30))
+    obstacle1.fill('green')
+    obstacle2 = pygame.Surface((30,30))
+    obstacle2.fill('green')
+    obstacle3 = pygame.Surface((30,30))
+    obstacle3.fill('green')
+    obstacle_rect1 = obstacle1.get_rect(center = (random.randrange(250, 300), 356))
+    obstacle_rect2 = obstacle2.get_rect(center = (random.randrange(350, 400), 356))
+    obstacle_rect3 = obstacle3.get_rect(center = (random.randrange(450, 500), 356))
+    # obstacle1 = Obstacle(obstacle_image, random.randrange(100, 200),ground)
+    # obstacle2 = Obstacle(obstacle_image, random.randrange(250, 350),ground)
+    # obstacle3 = Obstacle(obstacle_image, random.randrange(400, 500), ground)
     
 
     ### Draw the tap ###
-    tap_image_unescaled = pygame.image.load("assets//images//waterMiniGameBackground.jpg")
-    tap_image = escale_img(tap_image_unescaled, c.SCALE_FOR_PLANT)
-    tap_rect = tap_image.get_rect()
-    screen.blit(tap_image, tap_rect)
-    tap_rect = tap_image.get_rect()
-    tap_rect.center = (TAP_X, ground)
+    # tap_image_unescaled = pygame.image.load("assets//images//tap.jpg")
+    # tap_image = escale_img(tap_image_unescaled, 0.125)
+    # tap_rect = tap_image.get_rect(center=(c.TAP_X, ground))
+    tap = pygame.Surface((30,60))
+    tap.fill('purple')
+    tap_rect = tap.get_rect(center = (550, 356))
 
+    while mini_run:
 
-    for event in pygame.event.get():
-        if event.type == pygame.K_D:
-            PERSON_X -= PERSON_SPEED
-        if event.type == pygame.K_W:
-            PERSON_Y += PERSON_SPEED
-        if event.type == pygame.K_SPACE:
-            if (jump == False):
-                # Si no estoy saltando, empiezo a contar que estoy saltando y me agrego velocidad 
-                # (lo que voy a agregar a mi posición)
+        person_rect.topleft = (person_X, person_Y)
+        
+        screen.blit(background, background_rect)
+
+        screen.blit(person, (person_X,person_Y))
+
+        screen.blit(tap, tap_rect)
+
+        screen.blit(obstacle1, obstacle_rect1)
+        screen.blit(obstacle2, obstacle_rect2)
+        screen.blit(obstacle3, obstacle_rect3)
+        # obstacle1.draw(screen)
+        # obstacle2.draw(screen)
+        # obstacle3.draw(screen)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                print (pygame.mouse.get_pos())
+            if event.type == MY_EVENT:
+                reloj = reloj + 1
+                boton_agua_icon.need = boton_agua_icon.need - random.randint (0, 5)
+                boton_luz_icon.need = boton_luz_icon.need - random.randint (0, 5)
+
+        keys = pygame.key.get_pressed()
+        
+        if keys[pygame.K_LEFT]:
+            person_X -= c.PERSON_SPEED
+        if keys[pygame.K_RIGHT]:
+            person_X += c.PERSON_SPEED
+
+        if jump == False:
+            if keys[pygame.K_SPACE]:
                 jump = True
-                person_vertical_speed = -jump
-            else:
-                # Si ya estoy saltando, cambio mi posición a más alto y me bajo la velocidad, esto hasta que baje hasta
-                # el suelo
-                person_Y += person_Y_speed
-                person_Y_speed += PERSON_GRAVITY
+                person_Y_speed = -c.PERSON_JUMP
 
-    if PERSON_Y == ground: # Si estoy a nivel del suelo, mi velocidad de caida es 0 y dejo de saltar
-        jump = False
-        person_Y_speed = 0
+        if jump:
+            person_Y += person_Y_speed
+            person_Y_speed += c.PERSON_GRAVITY 
 
-    # Colisión con bordes
-    #   Lado izquierdo
-    if person_X < 0:
-        person_X = 0
-    #   Lado derecho
-    if person_X > ANCHO - PERSON_ANCHO:
-        person_X = ANCHO - PERSON_ANCHO
+            if person_Y >= ground:
+                person_Y = ground
+                jump = False
+                person_Y_speed = 0
 
-    # Colisión de personaje con obstaculo
-    if person_rect.colliderect(obstacle_rect1.shape) or person_rect.colliderect(obstacle_rect2.shape) or person_rect.colliderect(obstacle_rect3.shape):
-        person_X = PERSON_X
-    if person_rect.colliderect(tap_rect):
-        water_minigame_on = False
-    
+        # Colisión con bordes
+        #   Lado izquierdo
+        if person_X < (c.ANCHO // 2 - background_rect.width // 2):
+            person_X = c.ANCHO // 2 - background_rect.width // 2
+        #   Lado derecho
+        if person_X > (c.ANCHO // 2 + background_rect.width // 2 - 30):
+            person_X = c.ANCHO // 2 + background_rect.width // 2 - 30
+
+        # Colisión de personaje con obstaculo
+        if person_rect.colliderect(obstacle_rect1) or person_rect.colliderect(obstacle_rect2) or person_rect.colliderect(obstacle_rect3):
+            person_X = c.PERSON_X
+        if person_rect.colliderect(tap_rect):
+            print('collide')
+            mini_run = False
+        
+        clock.tick(c.FPS)
+        pygame.display.update()
+
+    return False, reloj
+
 
 # Pantalla de game over, pasa cuando algunos de los valores llega a 0
 def game_over ():
@@ -282,6 +330,7 @@ def game_over ():
             position = pygame.mouse.get_pos()
             if event.type == pygame.QUIT:
                 pygame.quit()
+                sys.exit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # Vuelvo a jugar si apreto el boton
