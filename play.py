@@ -91,6 +91,8 @@ def game_loop():
     boton_luz_icon.need = 100
     reloj = 0
 
+    points = 0 
+
     # Font para los textos (provisional)
     font = pygame.font.SysFont("Arial", 24)
     
@@ -122,9 +124,11 @@ def game_loop():
         timer_text = font.render(f"Timer: {reloj}", True, (255, 255, 255))
         agua_text = font.render(f"Agua: {boton_agua_icon.need}", True, (255, 255, 255))
         luz_text = font.render(f"Luz: {boton_luz_icon.need}", True, (255, 255, 255))
+        points_text = font.render(f"Points: {points}", True, (255, 255, 255))
         screen.blit(timer_text, (10, 10))
         screen.blit(agua_text, (10, 50))
         screen.blit(luz_text, (10, 90))
+        screen.blit(points_text, (10, 130))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -135,10 +139,12 @@ def game_loop():
             if event.type == MY_EVENT:
                 if double_time == True:
                     reloj = reloj + 2
+                    points = points + 2
                     boton_agua_icon.need = boton_agua_icon.need - random.randint (5, 10)
                     boton_luz_icon.need = boton_luz_icon.need - random.randint (5, 10)
                 else:
                     reloj = reloj + 1
+                    points = points + 1
                     boton_agua_icon.need = boton_agua_icon.need - random.randint (0, 5)
                     boton_luz_icon.need = boton_luz_icon.need - random.randint (0, 5)
 
@@ -181,7 +187,7 @@ def game_loop():
             time_icon.draw(screen)
             skip_icon.draw(screen)  
 
-            water_minigame_on, reloj, var_agua = water_minigame(reloj, var_agua) 
+            water_minigame_on, reloj, points, var_agua = water_minigame(reloj, points, var_agua) 
             print (water_minigame_on)
 
         pygame.display.update()
@@ -190,7 +196,7 @@ def game_loop():
 
 ## MINIJUEGOS ACA ABAJO ##
 
-def water_minigame(reloj, var_agua):
+def water_minigame(reloj, points, var_agua):
 
     font = pygame.font.SysFont("Arial", 24)
 
@@ -269,9 +275,11 @@ def water_minigame(reloj, var_agua):
         timer_text = font.render(f"Timer: {reloj}", True, (255, 255, 255))
         agua_text = font.render(f"Agua: {boton_agua_icon.need}", True, (255, 255, 255))
         luz_text = font.render(f"Luz: {boton_luz_icon.need}", True, (255, 255, 255))
+        points_text = font.render(f"Points: {points}", True, (255, 255, 255))
         screen.blit(timer_text, (150, 90))
         screen.blit(agua_text, (150, 130))
         screen.blit(luz_text, (150, 170))
+        screen.blit(points_text, (150, 200))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -325,4 +333,4 @@ def water_minigame(reloj, var_agua):
         clock.tick(c.FPS)
         pygame.display.update()
 
-    return False, reloj, var_agua
+    return False, reloj, points, var_agua
