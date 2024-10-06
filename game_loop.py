@@ -1,6 +1,6 @@
 import pygame
 import CONSTANTES as c
-from objects.personaje import Planta
+from objects.planta import Planta
 from objects.botones import Icon, Boton, Mood, Time_skip
 import random
 import sys
