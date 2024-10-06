@@ -1,60 +1,62 @@
 import pygame
 import CONSTANTES as c
-from personaje import Planta
-from botones import Icon, Boton, Mood, Time_skip
-from obstacles import Obstacle
-import random
+from objects.botones import Time_skip
+from game_loop import Game_Loop
+from game_over import Game_Over
 import sys
-from game_over import game_over
-from play import game_loop
 
 pygame.init() 
 
-### PANTALLA ###
+class Menu:
+    def __init__(self):
+        ### PANTALLA ###
+        self.screen = pygame.display.set_mode((c.ANCHO, c.ALTO))
+        pygame.display.set_caption("DEMOPLANTA")
+        self.background = pygame.image.load("assets//images//Background.jpg")
 
-screen = pygame.display.set_mode((c.ANCHO, c.ALTO))
-pygame.display.set_caption("DEMOPLANTA")
-background = pygame.image.load("assets//images//Background.jpg")
+        # Controlar el frame rate
+        self.clock = pygame.time.Clock()
 
-# Controlar el frame rate 
-clock = pygame.time.Clock()
+        ### ESCALAR IMAGENES ###
 
-### ESCALAR IMAGENES ###
+        def escale_img(image, scale):
+            w = image.get_width()
+            h = image.get_height()
+            new_image = pygame.transform.scale(image, (w * scale, h * scale))
+            return new_image
 
-def escale_img(image, scale):
-    w = image.get_width()
-    h = image.get_height()
-    new_image = pygame.transform.scale(image, (w * scale, h * scale))
-    return new_image
+        self.font = pygame.font.SysFont("Arial", 24)
+        self.escale_img = escale_img
+        self.screen.fill((0,0,0))
+        self.Play_text = self.font.render(f"Menu Screen", True, (255, 255, 255))
+        self.screen.blit(self.Play_text, (320, 200))
 
-# Font para los textos (provisional)
-font = pygame.font.SysFont("Arial", 24)
+        # Boton para iniciar el juego
+        self.play_image = pygame.image.load("assets//images//start.jpg")
+        self.play_image = escale_img(self.play_image, c.SCALE_FOR_SKIP)
+        self.play_icon = Time_skip(self.play_image, 380, 300) 
+        self.play_icon.draw(self.screen)
 
-##################################################################
+    def run(self):
+        while(True):
+            self.screen.fill((0,0,0))
+            self.play_icon.draw(self.screen)
+            self.screen.blit(self.Play_text, (320, 200))
+            for event in pygame.event.get():
+                self.position = pygame.mouse.get_pos()
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
-# Loop del menu
-while True:
-    # Pantalla negra y texto
-    screen.fill((0,0,0))
-    Play_text = font.render(f"Menu Screen", True, (255, 255, 255))
-    screen.blit(Play_text, (320, 200))
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.play_icon.image_shape.collidepoint(self.position):
+                        self.game_loop = Game_Loop(self.screen, self.font, self.escale_img,self.clock)
+                        self.game_loop.run()
+                        self.game_over = Game_Over(self.screen, self.font, self.escale_img,self.clock)
+                        self.game_over.run()
+            
+            self.clock.tick(c.FPS)
+            pygame.display.update()
 
-    # Boton para iniciar el juego
-    play_image = pygame.image.load("assets//images//start.jpg")
-    play_image = escale_img(play_image, c.SCALE_FOR_SKIP)
-    play_icon = Time_skip(play_image, 380, 300)  
-    play_icon.draw(screen)  
-
-    for event in pygame.event.get():
-        position = pygame.mouse.get_pos()
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if play_icon.image_shape.collidepoint(position):
-                game_loop()
-                game_over()
-
-    clock.tick(c.FPS)
-    pygame.display.update()
+menu = Menu()
+menu.run()

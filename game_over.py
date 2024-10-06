@@ -1,57 +1,47 @@
 import pygame
 import CONSTANTES as c
-from personaje import Planta
-from botones import Icon, Boton, Mood, Time_skip
-from obstacles import Obstacle
-import random
+from objects.botones import Time_skip
 import sys
-from play import game_loop
+from game_loop import Game_Loop
 
-
-screen = pygame.display.set_mode((c.ANCHO, c.ALTO))
-pygame.display.set_caption("DEMOPLANTA")
-background = pygame.image.load("assets//images//Background.jpg")
-
-
-
-clock = pygame.time.Clock()
-
-### ESCALAR IMAGENES ###
-
-def escale_img(image, scale):
-    w = image.get_width()
-    h = image.get_height()
-    new_image = pygame.transform.scale(image, (w * scale, h * scale))
-    return new_image
-
-# Pantalla de game over, pasa cuando algunos de los valores llega a 0
-def game_over ():
-
-    # Font para los textos (provisional)
-    font = pygame.font.SysFont("Arial", 24)
-
-    while True:
-        # Lleno la pantalla en negro y pongo 'Game Over'
-        screen.fill((0,0,0))
-        Game_Over_text = font.render(f"Game Over", True, (255, 255, 255))
-        screen.blit(Game_Over_text, (320, 200))
+class Game_Over:
+    def __init__(self, screen, font, escale_img, clock):
+        self.clock = clock
+        self.screen = screen
+        self.font = font
+        self.escale_img = escale_img
 
         # Boton para volver a jugar
-        try_again_image = pygame.image.load("assets//images//start.jpg")
-        try_again_image = escale_img(try_again_image, c.SCALE_FOR_SKIP)
-        try_again_icon = Time_skip(try_again_image, 380, 300)  
-        try_again_icon.draw(screen)  
+        self.try_again_image = pygame.image.load("assets//images//start.jpg")
+        self.try_again_image = escale_img(self.try_again_image, c.SCALE_FOR_SKIP)
+        self.try_again_icon = Time_skip(self.try_again_image, 380, 300)
 
-        for event in pygame.event.get():
-            position = pygame.mouse.get_pos()
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+        # Boton para ir al menu
+        self.menu_image = pygame.image.load("assets//images//start.jpg")
+        self.menu_image = escale_img(self.menu_image, c.SCALE_FOR_SKIP)
+        self.menu_icon = Time_skip(self.menu_image, 380, 300)
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                # Vuelvo a jugar si apreto el boton
-                if try_again_icon.image_shape.collidepoint(position):
-                    game_loop()
+        self.loop = True
+    def run(self):
+        self.loop = True
+        while self.loop:
+            # Lleno la pantalla en negro y pongo 'Game Over'
+            self.screen.fill((0,0,0))
+            self.Game_Over_text = self.font.render(f"Game Over", True, (255, 255, 255))
+            self.screen.blit(self.Game_Over_text, (320, 200))
+            self.try_again_icon.draw(self.screen) 
+            for event in pygame.event.get():
+                position = pygame.mouse.get_pos()
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
-        clock.tick(c.FPS)
-        pygame.display.update()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    # Vuelvo a jugar si apreto el boton
+                    if self.try_again_icon.image_shape.collidepoint(position):
+                        self.loop = False
+
+            self.clock.tick(c.FPS)
+            pygame.display.update()
+        self.game_loop = Game_Loop(self.screen, self.font, self.escale_img, self.clock)
+        self.game_loop.run()
