@@ -2,8 +2,8 @@
 
 ### PANTALLA ###
 
-ANCHO = 735
-ALTO = 472
+ANCHO = 720
+ALTO = 480
 CENTER = (ANCHO // 2, ALTO // 2)
 
 FPS = 60

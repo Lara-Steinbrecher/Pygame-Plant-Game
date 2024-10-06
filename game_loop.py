@@ -17,7 +17,7 @@ class Game_Loop():
         self.font = font
         self.escale_img = escale_img
 
-        self.background = pygame.image.load("assets//images//Background.jpg")
+        self.background = pygame.image.load("assets//images//Background.png")
 
         ### PLANTA ###
         # Cargo imagen de planta
@@ -134,7 +134,7 @@ class Game_Loop():
         while self.loop: 
             # Dibujo el fondo y todas las imagenes
             self.screen.blit(self.background,(0,0)) #fondo centrado
-            self.planta.draw(self.screen)
+            #self.planta.draw(self.screen)
             self.boton_agua_icon.draw(self.var_agua, self.screen)
             self.boton_luz_icon.draw(self.var_luz, self.screen)
             self.boton_soil_icon.draw(self.var_soil, self.screen)

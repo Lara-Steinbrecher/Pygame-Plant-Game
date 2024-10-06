@@ -12,7 +12,7 @@ class Menu:
         ### PANTALLA ###
         self.screen = pygame.display.set_mode((c.ANCHO, c.ALTO))
         pygame.display.set_caption("DEMOPLANTA")
-        self.background = pygame.image.load("assets//images//Background.jpg")
+        self.background = pygame.image.load("assets//images//Background.png")
 
         # Controlar el frame rate
         self.clock = pygame.time.Clock()
