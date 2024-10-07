@@ -4,6 +4,7 @@ from objects.botones import Time_skip
 from game_loop import Game_Loop
 from game_over import Game_Over
 import sys
+from menu_music import menu_music, stop_music
 
 pygame.init() 
 
@@ -11,8 +12,13 @@ class Menu:
     def __init__(self):
         ### PANTALLA ###
         self.screen = pygame.display.set_mode((c.ANCHO, c.ALTO))
-        pygame.display.set_caption("DEMOPLANTA")
+        pygame.display.set_caption("Green Study")
+        
+        self.icon_image = pygame.image.load("assets//images//regadera.png")
+        pygame.display.set_icon(self.icon_image)
+
         self.background = pygame.image.load("assets//images//Background.png")
+        self.blurred_background = pygame.transform.gaussian_blur(self.background, 10)
 
         # Controlar el frame rate
         self.clock = pygame.time.Clock()
@@ -37,9 +43,14 @@ class Menu:
         self.play_icon = Time_skip(self.play_image, 380, 300) 
         self.play_icon.draw(self.screen)
 
+        self.game = 1
+
+        menu_music()
+
+
     def run(self):
         while(True):
-            self.screen.fill((0,0,0))
+            self.screen.blit(self.blurred_background)
             self.play_icon.draw(self.screen)
             self.screen.blit(self.Play_text, (320, 200))
             for event in pygame.event.get():
@@ -50,10 +61,17 @@ class Menu:
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.play_icon.image_shape.collidepoint(self.position):
-                        self.game_loop = Game_Loop(self.screen, self.font, self.escale_img,self.clock)
-                        self.game_loop.run()
-                        self.game_over = Game_Over(self.screen, self.font, self.escale_img,self.clock)
-                        self.game_over.run()
+                        stop_music()
+                        while self.game == 1:
+                            self.game_loop = Game_Loop(self.screen, self.font, self.escale_img,self.clock)
+                            self.game_loop_run = self.game_loop.run()
+                            self.game_over = Game_Over(self.screen, self.font, self.escale_img,self.clock, self.blurred_background, self.game_loop_run[0], self.game_loop_run[1], self.game_loop_run[2])
+                            self.game_over_run = self.game_over.run()
+                            self.game == self.game_over_run
+                        stop_music()
+                        menu_music()
+                            
+                            
             
             self.clock.tick(c.FPS)
             pygame.display.update()

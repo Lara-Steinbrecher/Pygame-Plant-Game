@@ -2,6 +2,7 @@ import pygame
 import CONSTANTES as c
 import random
 import string
+from objects.object import Object
 
 class Light_Minigame():
     def __init__(self, screen, font, escale_img):
@@ -9,9 +10,7 @@ class Light_Minigame():
         self.font = font
         self.escale_img = escale_img
 
-        self.background = pygame.Surface((450,300))
-        self.background.fill('black')
-        self.background_rect = self.background.get_rect(center = (c.ANCHO // 2, c.ALTO // 2))
+        self.background = Object("assets//images//juegoventanatodojunto.png", c.ANCHO // 2, c.ALTO // 2)
 
         # Mezclo y tomo 8 de un array de letras
         self.letters = list(string.ascii_uppercase)
@@ -26,28 +25,25 @@ class Light_Minigame():
 
     
     def run(self, pressed_letter):
-        self.screen.blit(self.background, self.background_rect)
+        self.background.draw(self.screen)
         self.center_letter = self.letters[self.center_index]
         self.pressed_letter = pressed_letter
 
         ### Center Letter ###
-        text_surface = self.font.render(self.center_letter, True, 'white')
-        text_rect = text_surface.get_rect(center=(c.ANCHO // 2, c.ALTO // 2))
+        text_surface = self.font.render(self.center_letter, True, 'black')
+        text_rect = text_surface.get_rect(center=(c.ANCHO // 2 + 6, c.ALTO // 2 + 40))
         self.screen.blit(text_surface, text_rect)
-        
-        ### Right letters ###
-        for i in range(self.center_index - 1, max(-1, self.center_index - 3), -1):
-            letter = self.letters[i]
-            text = self.small_font.render(letter, True, 'gray')
-            text_rect = text.get_rect(center=(c.ANCHO // 2 + (i - self.center_index) * self.spacing, c.ALTO // 2))
+
+        if self.center_index != 0:
+            text = self.small_font.render(self.letters[self.center_index - 1], True, 'black')
+            text_rect = text.get_rect(center=(c.ANCHO // 2 + 65, c.ALTO // 2 + 28))
             self.screen.blit(text, text_rect)
 
-        ### Left letters ###
-        for i in range(self.center_index + 1, min(self.center_index + 3, len(self.letters))):
-            letter = self.letters[i]
-            text = self.small_font.render(letter, True, 'gray')
-            text_rect = text.get_rect(center=(c.ANCHO // 2 + (i - self.center_index) * self.spacing, c.ALTO // 2))
+        if self.center_index != 7:
+            text = self.small_font.render(self.letters[self.center_index + 1], True, 'black')
+            text_rect = text.get_rect(center=(c.ANCHO // 2 - 60, c.ALTO // 2 + 28))
             self.screen.blit(text, text_rect)
+
 
         if self.pressed_letter == self.letters[self.center_index]:
             self.center_index += 1  # Move to the next letter
@@ -59,3 +55,8 @@ class Light_Minigame():
             self.center_index = 0
             self.letters = list(string.ascii_uppercase)
             self.letters = random.sample(self.letters,8)
+
+        self.keys = pygame.key.get_pressed()
+        
+        if self.keys[pygame.K_ESCAPE]:
+            return 2
