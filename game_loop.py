@@ -7,7 +7,6 @@ from minijuegos.light_minigame import Light_Minigame
 from minijuegos.water_minigame import Water_Minigame
 from minijuegos.soil_minigame import Soil_Minigame
 from minijuegos.temp_minigame import Temp_Minigame
-from win_screen import Win_Screen
 from objects.needs_paper import Needs_Paper
 from objects.object import Object
 from objects.clock import Aguja, Agujita, Interruptor

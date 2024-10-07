@@ -28,7 +28,7 @@ class Water_Minigame():
         # obstacle_image_unescaled = pygame.image.load("assets//images//obstacle.jpg")
         # obstacle_image = escale_img(obstacle_image_unescaled, 0.125)
         self.obstacle1 = Object("assets//images//rastrillominigameagua.png", random.randint(280, 320), 332)
-        self.obstacle2 = Object("assets//images//abeja.png", random.randint(450,480), 275)
+        self.obstacle2 = Object("assets//images//abeja.png", random.randint(450,480), 300)
 
         self.tap = Object("assets//images//macetaminigameagua.png", 550, 333)
 
