@@ -3,6 +3,7 @@ import CONSTANTES as c
 from objects.botones import Time_skip
 from game_loop import Game_Loop
 from game_over import Game_Over
+from tutorial import Tutorial
 import sys
 from menu_music import menu_music, stop_music
 
@@ -63,6 +64,8 @@ class Menu:
                     if self.play_icon.image_shape.collidepoint(self.position):
                         stop_music()
                         while self.game == 1:
+                            self.tutorial = Tutorial(self.screen, self.blurred_background, self.clock)
+                            self.tutorial.run()
                             self.game_loop = Game_Loop(self.screen, self.font, self.escale_img,self.clock)
                             self.game_loop_run = self.game_loop.run()
                             self.game_over = Game_Over(self.screen, self.font, self.escale_img,self.clock, self.blurred_background, self.game_loop_run[0], self.game_loop_run[1], self.game_loop_run[2])

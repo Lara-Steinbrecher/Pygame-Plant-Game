@@ -27,8 +27,14 @@ class Water_Minigame():
         ### Draw the obstacles ###
         # obstacle_image_unescaled = pygame.image.load("assets//images//obstacle.jpg")
         # obstacle_image = escale_img(obstacle_image_unescaled, 0.125)
-        self.obstacle1 = Object("assets//images//rastrillominigameagua.png", random.randint(280, 320), 332)
-        self.obstacle2 = Object("assets//images//abeja.png", random.randint(450,480), 300)
+        self.obstacles = [
+            "assets//images//rastrillominigameagua.png",
+            "assets//images//abeja.png"
+        ]
+
+        self.obstacle1 = Object(self.obstacles[random.randint(0,1)], random.randint(280, 320), 332)
+        self.obstacle2 = Object(self.obstacles[random.randint(0,1)], random.randint(450, 320), 332)
+        self.obstacle3 = Object(self.obstacles[random.randint(0,1)], random.randint(280, 320), 332)
 
         self.tap = Object("assets//images//macetaminigameagua.png", 550, 333)
 
@@ -72,7 +78,7 @@ class Water_Minigame():
             self.person_X = c.ANCHO // 2 + self.background.rect.width // 2 - 30
 
         # Colisión de personaje con obstaculo
-        if self.person.check_collision(self.obstacle1.rect, self.obstacle1.mask) or self.person.check_collision(self.obstacle2.rect, self.obstacle2.mask):
+        if self.person.check_collision(self.obstacle1.rect, self.obstacle1.mask) or self.person.check_collision(self.obstacle2.rect, self.obstacle2.mask) or self.person.check_collision(self.obstacle3.rect, self.obstacle3.mask):
             self.person_X = c.PERSON_X
             choque_obj()
         

@@ -1,52 +1,33 @@
 import pygame
+from objects.object import Object
+import CONSTANTES as c
+import sys
 
-# Initialize Pygame
-pygame.init()
+class Tutorial():
+    def __init__(self, screen, background, clock):
+        self.clock = clock
+        self.background = background
+        self.screen = screen
+        self.tutorial = Object("assets//images//tutorial.png", c.CENTER[0], c.CENTER[1])
+        self.loop = 1
 
-# Set up screen
-screen = pygame.display.set_mode((800, 600))
-clock = pygame.time.Clock()
+    def run(self):
+        while(self.loop):
+            self.screen.blit(self.background)
+            self.tutorial.draw(self.screen)
 
-# Load an image and create a mask for it
-image = pygame.image.load("assets//images//maceta.png")
-masked = pygame.mask.from_surface(image)
 
-# Get image dimensions and position
-image_rect = image.get_rect()
-image_rect.topleft = (300, 200)  # Position the object at (300, 200)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.loop = 0
 
-# Create a 1x1 pixel mask for the mouse (a point)
-mouse_mask = pygame.mask.Mask((1, 1), fill=True)
+            pygame.display.update()
+            self.clock.tick(c.FPS)
 
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+    
+    
 
-    # Get the mouse position
-    mouse_pos = pygame.mouse.get_pos()
-
-    # Calculate the offset between the mask and the mouse position
-    # Offset is the difference between the object's rect position and the mouse position
-    offset = (mouse_pos[0] - image_rect.x, mouse_pos[1] - image_rect.y)
-
-    # Check if the object's mask overlaps with the 1x1 pixel mouse mask
-    if masked.overlap(mouse_mask, offset):
-        print("Mouse is on the object!")
-    else:
-        print("Mouse is not on the object.")
-
-    # Clear the screen
-    screen.fill((0, 0, 0))
-
-    # Blit the image to the screen
-    screen.blit(image, image_rect.topleft)
-
-    # Update the screen
-    pygame.display.flip()
-
-    # Cap the frame rate
-    clock.tick(60)
-
-pygame.quit()
+        

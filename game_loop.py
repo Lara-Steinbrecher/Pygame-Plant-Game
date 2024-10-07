@@ -80,7 +80,6 @@ class Game_Loop():
     def run (self):
         self.loop = True
         while self.loop: 
-            print('in run')
             # Dibujo el fondo y todas las imagenes
             if self.double_time == True:
                 self.reloj_interruptor.on_state()
@@ -109,7 +108,7 @@ class Game_Loop():
                 # Timer, te da doble puntaje mientras lo mantengas presionado al boton
                 if event.type == self.MY_EVENT:
                     if self.double_time == True:
-                        self.reloj -= 2
+                        self.reloj -= 1
                         self.points += 2
                         self.water_need -= random.randint (2, 4)
                         random_number = random.randint (2, 4)

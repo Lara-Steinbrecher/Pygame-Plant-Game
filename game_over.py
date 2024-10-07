@@ -43,11 +43,11 @@ class Game_Over:
 
             if self.type == 1:
                 self.win.draw(self.screen)
-                if self.score == 450:
+                if self.score == 360:
                     self.A.draw(self.screen)
-                if self.score == 350:
+                if self.score == 280:
                     self.B.draw(self.screen)
-                if self.score == 250:
+                if self.score == 230:
                     self.C.draw(self.screen)
                 if self.score == 180:
                     self.D.draw(self.screen)
