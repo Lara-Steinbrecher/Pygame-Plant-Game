@@ -14,6 +14,7 @@ class Game_Over:
         self.background = background
         self.escale_img = escale_img
         self.plant_achieved = plant_achieved
+        self.max_plant = pygame.image.load("assets//images//etapa6_planta.png")
         self.score = score
         self.pixel_font = pygame.font.Font("assets//fonts//PressStart2P-Regular.ttf", 18)
 
@@ -41,22 +42,23 @@ class Game_Over:
 
             if self.type == 1:
                 self.win.draw(self.screen)
-                if self.score == 360:
+                self.screen.blit(self.max_plant, (280,120))
+                if self.score >= 360:
                     self.A.draw(self.screen)
-                if self.score == 280:
+                if self.score >= 280:
                     self.B.draw(self.screen)
-                if self.score == 230:
+                if self.score >= 230:
                     self.C.draw(self.screen)
-                if self.score == 180:
+                if self.score >= 180:
                     self.D.draw(self.screen)
             else:
                 self.lose.draw(self.screen)
                 self.F.draw(self.screen)
+                self.screen.blit(self.plant_achieved.imagen, (280,120))
 
             self.screen.blit(self.score_text, self.score_text_rect)
             self.menu.draw(self.screen)
             self.again.draw(self.screen)
-            self.screen.blit(self.plant_achieved.imagen, (280,120))
                 
             
             for event in pygame.event.get():
