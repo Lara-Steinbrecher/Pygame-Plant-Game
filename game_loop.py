@@ -11,7 +11,7 @@ from objects.needs_paper import Needs_Paper
 from objects.object import Object
 from objects.clock import Aguja, Agujita, Interruptor
 from objects.termostato import Termostato
-from menu_music import background_music, win_sound
+from menu_music import background_music, win_sound, game_over_sound
 
 
 class Game_Loop():
@@ -238,6 +238,7 @@ class Game_Loop():
 
              # Termina el loop si algunos de los valores de necesidad de la planta bajan a 0 (pierdo)
             if self.water_need <= 0 or self.light_need <= 0 or self.light_need <= 0 or self.temp_need <= 0:
+                game_over_sound()
                 return 0, self.planta, self.points
             
             if self.reloj <= 0:

@@ -23,10 +23,10 @@ class Needs_Paper():
         self.screen.blit(self.background, self.background_rect)
 
         self.needs_text = self.font.render("Necesidades", True, 'black')
-        self.agua_text = self.font.render(f"Agua: {self.water_need}", True, 'black')
-        self.luz_text = self.font.render(f"Luz: {self.light_need}", True, 'black')
-        self.soil_text = self.font.render(f"Tierra: {self.soil_need}", True, 'black')
-        self.temp_text = self.font.render(f"Temperatura: {self.temp_need}", True, 'black')
+        self.agua_text = self.font.render(f"Agua:", True, 'black')
+        self.luz_text = self.font.render(f"Luz:", True, 'black')
+        self.soil_text = self.font.render(f"Tierra:", True, 'black')
+        self.temp_text = self.font.render(f"Temperatura:", True, 'black')
 
         self.screen.blit(self.needs_text, (c.ANCHO // 2 - 65, c.ALTO // 2 - 160))
         self.screen.blit(self.agua_text, (c.ANCHO // 2 - 100, 150))
@@ -55,7 +55,10 @@ class Need_Bar():
     def draw(self, need, screen, color):
         self.screen = screen
 
-        self.bar = pygame.Surface((220*(need/100),18))
+        if need <= 0:
+            return 0
+        
+        self.bar = pygame.Surface(((220*(need/100)),18))
         self.bar_rect = self.bar.get_rect(center=(c.CENTER[0],self.y))
         self.bar.fill(color)
 

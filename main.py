@@ -1,6 +1,5 @@
 import pygame
 import CONSTANTES as c
-from objects.botones import Time_skip
 from game_loop import Game_Loop
 from game_over import Game_Over
 from tutorial import Tutorial
@@ -16,7 +15,7 @@ class Menu:
         self.screen = pygame.display.set_mode((c.ANCHO, c.ALTO))
         pygame.display.set_caption("Green Study")
         
-        self.icon_image = pygame.image.load("assets//images//regadera.png")
+        self.icon_image = pygame.image.load("assets//images//etapa3_planta.png")
         pygame.display.set_icon(self.icon_image)
 
         self.background = pygame.image.load("assets//images//Background.png")

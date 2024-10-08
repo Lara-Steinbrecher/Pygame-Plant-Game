@@ -56,7 +56,7 @@ class Game_Over:
             self.screen.blit(self.score_text, self.score_text_rect)
             self.menu.draw(self.screen)
             self.again.draw(self.screen)
-            self.screen.blit(self.plant_achieved.imagen, (300,120))
+            self.screen.blit(self.plant_achieved.imagen, (280,120))
                 
             
             for event in pygame.event.get():
