@@ -23,6 +23,9 @@ class Temp_Minigame():
         self.objective_rect = self.objective.get_rect(center = c.CENTER)
 
         self.error = pygame.image.load("assets//images//Minijuego-temperatura-fallo.png").convert_alpha()
+        
+        self.decor = pygame.image.load("assets//images//Minijuego-temperatura-flechas-de-temp.png").convert_alpha()
+        self.decor_rect = self.objective.get_rect(center = (c.CENTER[0] + 50,c.CENTER[1]))
     
         self.selector_speed = c.SELECTOR_SPEED
         self.selector_x = c.SELECTOR_X
@@ -43,6 +46,7 @@ class Temp_Minigame():
         self.screen.blit(self.selector, self.selector_rect)
         self.screen.blit(self.objective, self.objective_rect)
         self.screen.blit(self.termostato_imagen, (180,110))
+        self.screen.blit(self.decor, self.decor_rect)
 
         self.selector_x += self.selector_speed
 
