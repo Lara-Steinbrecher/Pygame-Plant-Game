@@ -43,11 +43,11 @@ class Game_Over:
             if self.type == 1:
                 self.win.draw(self.screen)
                 self.screen.blit(self.max_plant, (280,120))
-                if self.score >= 320:
+                if self.score >= 285:
                     self.A.draw(self.screen)
-                elif self.score >= 280:
+                elif self.score >= 250:
                     self.B.draw(self.screen)
-                elif self.score >= 230:
+                elif self.score >= 215:
                     self.C.draw(self.screen)
                 elif self.score >= 180:
                     self.D.draw(self.screen)
