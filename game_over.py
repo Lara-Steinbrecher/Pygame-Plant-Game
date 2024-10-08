@@ -69,9 +69,9 @@ class Game_Over:
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     # Vuelvo a jugar si apreto el boton
-                    if self.menu.check_collision(self.position, self.mouse_mask) == 1:
+                    if self.menu.check_collision(self.mouse_position, self.mouse_mask) == 1:
                         return 0
-                    if self.again.check_collision(self.position, self.mouse_mask) == 1:
+                    if self.again.check_collision(self.mouse_position, self.mouse_mask) == 1:
                         return 1
 
 
