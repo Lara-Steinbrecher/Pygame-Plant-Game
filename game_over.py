@@ -13,9 +13,7 @@ class Game_Over:
         self.type = type
         self.background = background
         self.escale_img = escale_img
-        # self.plant_achieved = plant_achieved
         self.plant_achieved = plant_achieved
-        self.plant_achieved_rect = self.plant_achieved.get_rect(center=(425, 260))
         self.score = score
         self.pixel_font = pygame.font.Font("assets//fonts//PressStart2P-Regular.ttf", 18)
 
@@ -58,7 +56,7 @@ class Game_Over:
             self.screen.blit(self.score_text, self.score_text_rect)
             self.menu.draw(self.screen)
             self.again.draw(self.screen)
-            self.screen.blit(self.plant_achieved,self.plant_achieved_rect)
+            self.screen.blit(self.plant_achieved.imagen, (300,120))
                 
             
             for event in pygame.event.get():

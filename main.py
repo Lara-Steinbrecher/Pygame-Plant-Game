@@ -6,6 +6,7 @@ from game_over import Game_Over
 from tutorial import Tutorial
 import sys
 from menu_music import menu_music, stop_music
+from objects.object import Object
 
 pygame.init() 
 
@@ -35,15 +36,11 @@ class Menu:
         self.font = pygame.font.SysFont("Arial", 24)
         self.escale_img = escale_img
         self.screen.fill((0,0,0))
-        self.Play_text = self.font.render(f"Menu Screen", True, (255, 255, 255))
-        self.screen.blit(self.Play_text, (320, 200))
 
-        # Boton para iniciar el juego
-        self.play_image = pygame.image.load("assets//images//start.jpg")
-        self.play_image = escale_img(self.play_image, c.SCALE_FOR_SKIP)
-        self.play_icon = Time_skip(self.play_image, 380, 300) 
-        self.play_icon.draw(self.screen)
+        self.main_screen = pygame.image.load("assets//images//main_screen.png")
 
+        self.start_button = Object("assets//images//start.png", 420,400)
+        self.exit_button = Object("assets//images//exit.png", 420,450)
         self.game = 1
 
         menu_music()
@@ -52,16 +49,21 @@ class Menu:
     def run(self):
         while(True):
             self.screen.blit(self.blurred_background)
-            self.play_icon.draw(self.screen)
-            self.screen.blit(self.Play_text, (320, 200))
+            self.screen.blit(self.main_screen)
+            self.start_button.draw(self.screen)
+            self.exit_button.draw(self.screen)
+
+
             for event in pygame.event.get():
-                self.position = pygame.mouse.get_pos()
+                self.mouse_position = pygame.mouse.get_pos()
+                self.mouse_mask = pygame.mask.Mask((1, 1), fill=True)
+
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if self.play_icon.image_shape.collidepoint(self.position):
+                    if self.start_button.check_collision(self.mouse_position, self.mouse_mask) == 1:
                         stop_music()
                         while self.game == 1:
                             self.tutorial = Tutorial(self.screen, self.blurred_background, self.clock)
@@ -73,6 +75,9 @@ class Menu:
                             self.game == self.game_over_run
                         stop_music()
                         menu_music()
+                    if self.exit_button.check_collision(self.mouse_position, self.mouse_mask) == 1:
+                        pygame.quit()
+                        sys.exit()
                             
                             
             

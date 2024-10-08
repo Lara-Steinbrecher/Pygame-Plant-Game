@@ -23,8 +23,8 @@ class Game_Loop():
 
         self.background = pygame.image.load("assets//images//Background.png")
 
-        self.agujita = Agujita(74, 79)
-        self.aguja = Aguja(75, 79)
+        self.agujita = Agujita(74, 80)
+        self.aguja = Aguja(75, 80)
         self.pala = Object("assets//images//pala.png",48, 390)
         self.rastrillo = Object("assets//images//rastrillo.png",48, 390)
         self.planta = Planta(310, 235)
