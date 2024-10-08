@@ -3,43 +3,77 @@ import CONSTANTES as c
 from objects.botones import Time_skip
 import sys
 from game_loop import Game_Loop
+from objects.object import Object
 
 class Game_Over:
-    def __init__(self, screen, font, escale_img, clock):
+    def __init__(self, screen, font, escale_img, clock, background, type, plant_achieved, score):
         self.clock = clock
         self.screen = screen
         self.font = font
+        self.type = type
+        self.background = background
         self.escale_img = escale_img
+        self.plant_achieved = plant_achieved
+        self.score = score
+        self.pixel_font = pygame.font.Font("assets//fonts//PressStart2P-Regular.ttf", 18)
 
         # Boton para volver a jugar
-        self.try_again_image = pygame.image.load("assets//images//start.jpg")
-        self.try_again_image = escale_img(self.try_again_image, c.SCALE_FOR_SKIP)
-        self.try_again_icon = Time_skip(self.try_again_image, 380, 300)
+        self.scroll = Object("assets//images//Game-over-screen-fondo.png", c.CENTER[0],c.CENTER[1])
+        self.win = Object("assets//images//Game-over-screen-ganaste.png", c.CENTER[0], 230)
+        self.lose = Object("assets//images//Game-over-screen-perdiste.png", c.CENTER[0], 230)
+        self.A = Object("assets//images//Game-over-screen-A.png", 300, 225)
+        self.B = Object("assets//images//Game-over-screen-B.png", 300, 225)
+        self.C = Object("assets//images//Game-over-screen-C.png", 300, 225)
+        self.D = Object("assets//images//Game-over-screen-D.png", 300, 225)
+        self.F = Object("assets//images//Game-over-screen-F.png", 300, 225)
 
-        # Boton para ir al menu
-        self.menu_image = pygame.image.load("assets//images//start.jpg")
-        self.menu_image = escale_img(self.menu_image, c.SCALE_FOR_SKIP)
-        self.menu_icon = Time_skip(self.menu_image, 380, 300)
+        self.menu = Object("assets//images//Game-over-screen-menu.png", 245, 170)
+        self.again = Object("assets//images//Game-over-screen-retry.png", 355, 235)
+        
+        self.score_text = self.pixel_font.render(f"Score: {self.score}", True, 'brown')
+        self.score_text_rect = self.score_text.get_rect(center=(c.CENTER[0], 440))
 
         self.loop = True
     def run(self):
-        self.loop = True
         while self.loop:
             # Lleno la pantalla en negro y pongo 'Game Over'
-            self.screen.fill((0,0,0))
-            self.Game_Over_text = self.font.render(f"Game Over", True, (255, 255, 255))
-            self.screen.blit(self.Game_Over_text, (320, 200))
-            self.try_again_icon.draw(self.screen) 
+            self.scroll.draw(self.screen)
+
+            if self.type == 1:
+                self.win.draw(self.screen)
+                if self.score == 360:
+                    self.A.draw(self.screen)
+                if self.score == 280:
+                    self.B.draw(self.screen)
+                if self.score == 230:
+                    self.C.draw(self.screen)
+                if self.score == 180:
+                    self.D.draw(self.screen)
+            else:
+                self.lose.draw(self.screen)
+                self.F.draw(self.screen)
+
+            self.screen.blit(self.score_text, self.score_text_rect)
+            self.menu.draw(self.screen)
+            self.again.draw(self.screen)
+            self.screen.blit(self.plant_achieved.imagen, (280,120))
+                
+            
             for event in pygame.event.get():
-                position = pygame.mouse.get_pos()
+                self.mouse_position = pygame.mouse.get_pos()
+                self.mouse_mask = pygame.mask.Mask((1, 1), fill=True)
+
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     # Vuelvo a jugar si apreto el boton
-                    if self.try_again_icon.image_shape.collidepoint(position):
-                        self.loop = False
+                    if self.menu.check_collision(self.mouse_position, self.mouse_mask) == 1:
+                        return 0
+                    if self.again.check_collision(self.mouse_position, self.mouse_mask) == 1:
+                        return 1
+
 
             self.clock.tick(c.FPS)
             pygame.display.update()
